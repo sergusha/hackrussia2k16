@@ -13,7 +13,7 @@ else
 	if ($empl != 0)
 	{
 		$empl--;
-		$query = "UPDATE department_detail_table SET employed=$empl";
+		$query = "UPDATE department_detail_table SET employed=$empl WHERE scrubs_id='$scrubs_id' AND department_id='department_id'";
 		$dummy = mysql_query($query);
 		if (!$dummy)
 			echo -1;
