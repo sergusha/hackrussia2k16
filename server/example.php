@@ -73,6 +73,12 @@
 			<input type='submit' id='scrubs_detail_submit'>
 		</form>
 	</div>
+	<div id='call_form'>
+		<form method='post' action='add_call.php'>
+			<input type='text' name='call_address' id='call_address'>
+			<input type='submit' id='submit_call'>
+		</form>
+	</div>
 	
 	</body>
 </html>
