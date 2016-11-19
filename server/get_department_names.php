@@ -1,4 +1,5 @@
 <?php
+include('db.inc');
 if (!$_GET['id'])
 	echo -1;
 else
@@ -9,15 +10,18 @@ else
 	$res = "";
 	while ($row = mysql_fetch_object($sql))
 	{
-		$sql2 = "SELECT name FROM department_table WHERE id=$row->id";
-		$query2 = mysql_query($sql2);
+		$query2 = "SELECT name FROM department_table WHERE id=$row->department_id";
+		$sql2 = mysql_query($query2);
 		$row2 = mysql_fetch_object($sql2);
 		
 		$employed = $row->employed;
-		$num_of_place = $row->name_of_place;
+		$num_of_place = $row->num_of_place;
 		$buffer = $row->buffer;
-		$res = $row->id . '|' . $row2->name . '|' . $employed . '|' . $buffer . '|' . ($num_of_place - $buffer - $employed) . '&';
+		$free = $num_of_place - $buffer - $employed;
+		$res = $row->id . '|' . $row2->name . '|' . $employed . '|' . $buffer . '|' . $free . '&' . $res;
+		
 	}
+	
 	echo $res;
 }
 ?>

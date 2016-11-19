@@ -1,5 +1,5 @@
 <?php
-include('db.inc');
+include("db.inc");
 if (!$_GET['scrubs_id'] || !$_GET['department_id'])
 {
 	echo -1;
@@ -13,15 +13,6 @@ else
 	$buffer = $row->buffer;
 	$empl = $row->employed;
 	$num_of_place = $row->num_of_place;
-	if ($empl != buffer)
-	{
-		$buffer--;
-		$query = "UPDATE department_detail_table SET buffer=$buffer WHERE scrubs_id=$scrubs_id AND department_id=$department_id";
-		$dummy = mysql_query($query);
-		if (!$dummy)
-			echo -1;
-		else
-			echo $num_of_place . '|' . $empl . '|' . $buffer;
-	}
+	echo $num_of_place . '|' . $empl . '|' . $buffer;
 }
 ?>
