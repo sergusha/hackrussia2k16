@@ -1,4 +1,28 @@
 <?php
+function file_get_contents_curl($url) {
+
+    $ch = curl_init();
+
+    curl_setopt($ch, CURLOPT_HEADER, 0);
+
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1); //Устанавливаем параметр, чтобы curl возвращал данные, вместо того, чтобы выводить их в браузер.
+
+    curl_setopt($ch, CURLOPT_URL, $url);
+	
+	curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+
+ 
+
+    $data = curl_exec($ch);
+
+    curl_close($ch);
+	
+    return $data;
+}
+
+?>
+
+<?php
 include('db.inc');
 if ($_GET['x'])
 	$fromX = $_GET['x'];
@@ -24,9 +48,9 @@ while($row = mysql_fetch_object($sql))
 {
 	$destRes = $destRes . $row->coordX . ',' . $row->coordY . '|';
 }
-$timeNow = time();
-//$urlGoogleApi = "https://maps.googleapis.com/maps/api/distancematrix/json?departure_time=$timeNow&origins=$fromX,$fromY&destinations=$destRes&key=AIzaSyBkYGFvoXHI-PyeGN2synyx_o1_0ZzB5aY";	
-//$html = file_get_contents($urlGoogleApi);
+$timeNow = time()+4000;
+$urlGoogleApi = "https://maps.googleapis.com/maps/api/distancematrix/json?departure_time=$timeNow&origins=$fromX,$fromY&destinations=$destRes&key=AIzaSyBkYGFvoXHI-PyeGN2synyx_o1_0ZzB5aY";	
+$html = file_get_contents_curl($urlGoogleApi);
 
 $toX = 60.007178; 
 $toY = 30.372719;
@@ -95,7 +119,9 @@ drivingOptions: {
 </html>
 EOF;
 
-print $str1 . $strCoords . $str2;
-//print $urlGoogleApi;
+//print $str1 . $strCoords . $str2;
+print $urlGoogleApi . "<br>" . $html;
+
+//free_to_reserve
 
 ?>
