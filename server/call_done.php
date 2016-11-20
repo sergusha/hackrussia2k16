@@ -1,74 +1,34 @@
 <?php
-function file_get_contents_curl($url) {
-
-    $ch = curl_init();
-    curl_setopt($ch, CURLOPT_HEADER, 0);
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1); //Устанавливаем параметр, чтобы curl возвращал данные, вместо того, чтобы выводить их в браузер.
-    curl_setopt($ch, CURLOPT_URL, $url);
-	curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-
-    $data = curl_exec($ch);
-    curl_close($ch);
-    return $data;
-}
-
-?>
-
-<?php
 include('db.inc');
-$id = $_GET['id']; 
-$select = "SELECT address FROM call_table WHERE coach_id = $id AND activity=1";
-$sql = mysql_query($select);
-$row = mysql_fetch_object($sql);
-$address = $row->address;
-$address = str_replace(" ", "+",$address);
-//Получим координаты из адреса
-$urlGoogleApi = "https://maps.googleapis.com/maps/api/geocode/xml?address=$address&key=AIzaSyBkYGFvoXHI-PyeGN2synyx_o1_0ZzB5aY";
-$html = file_get_contents_curl($urlGoogleApi);
-$fp = fopen('html.txt', w);
-fwrite($fp, $html);
-fclose($fp);
-
-$fp = fopen("html.txt",'r');
-$x=0;
-$y=0;
-while(!feof($fp))
-{
-		$str = fgets($fp);
-		$dur = strpos($str, "<location>");
-		if ($dur)
-		{
-			//Вычленяем координаты
-			$x = fgets($fp);
-			$y = fgets($fp);
-			$x = trim(substr($x, 9, strpos($x,'</')-9));
-			$y = trim(substr($y, 9, strpos($y,'</')-9));
-		}
-}
-//echo $x . "-" . $y . "<br>";
-/*
-$query = "SELECT * FROM coaсh_table WHERE employed=0";
-$sql3 = mysql_query($query);
-if (!$sql3)
-	echo "Fuck..." . "<br>";
+$id = $_GET['id'];
+if ($_GET['x'])
+	$fromX = $_GET['x'];
+else 
+	$fromX = 59.987011;
+if ($_GET['y'])
+	$fromY = $_GET['y'];
 else
-	echo "O`kay..." . "<br>";
+	$fromY = 30.347672;
 
-while($row = mysql_fetch_object($sql3))
-{
-	echo $row3->id . " " . "<br>";
-	if ($row3->id == $id)
-	{
-		echo $id;
-		$fromX = $row3->coordX;
-		$fromY = $row3->coordY;
-	}
-}*/
-//echo $fromX . " - " . $fromY ."<br>";
-$fromX = $_GET['x'];
-$fromY = $_GET['y'];
-//echo $x . " - " . $y . "<br>";
-//echo $id;
+//Освободить скорую помощь
+$update = "UPDATE coach_table SET employed=0 WHERE id=$id";
+$sql1 = mysql_query($update);
+/*if (!$sql1)
+	echo "Fuck1..." . "<br>";
+else
+	echo "O`kay1..." . "<br>";*/
+//Завершить вызов
+$update = "UPDATE call_table SET activity=0 WHERE coach_id=$id";
+$sql2 = mysql_query($update);
+/*if (!$sql2)
+	echo "Fuck2..." . "<br>";
+else
+	echo "O`kay2..." . "<br>";*/
+
+//Выдаем случайные координаты чтобы машинка вернулась домой
+$x = 60.0093;
+$y = 30.3708;
+
 $strCoords = "var chicago = {lat: $fromX , lng: $fromY}; var indianapolis = {lat: $x , lng: $y};";
 $str1 = <<<EOF
 <!DOCTYPE html>
@@ -136,5 +96,3 @@ EOF;
 print $str1 . $strCoords . $str2;
 
 ?>
-
-

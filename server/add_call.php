@@ -47,7 +47,7 @@ while(!feof($fp))
 echo $x . "-" . $y . "<br>";
 
 
-$query = "SELECT * FROM coaсh_table WHERE employed=0";
+$query = "SELECT * FROM coach_table WHERE employed=0";
 $sql1 = mysql_query($query);
 if (!$sql1)
 	echo "Fuck1" . "<br>";
@@ -115,6 +115,11 @@ if (!$sql)
 	echo "Fuck2" . "<br>";
 else
 	echo "O`kay2" . "<br>";
-
-//header('Location: example.php');
+$update = "UPDATE coach_table SET employed=1 WHERE id = $current_id";
+$sql = mysql_query($update);
+if (!$sql)
+	echo "Fuck3" . "<br>";
+else
+	echo "O`kay3" . "<br>";
+header('Location: example.php');
 ?>
