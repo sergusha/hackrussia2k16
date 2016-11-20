@@ -23,10 +23,16 @@ public:
     void getDepartmentInfo();
     void parseDepartmentInfo(QString reply);
     void getDepartmentNames();
+    void setHospitalName(QString);
 public slots:
     void show_content(QListWidgetItem*);
     void replyOnDepartmentNames();
     void replyOnGetInfo();
+  //  void goBackSlot();
+
+/*signals:
+    void Hide();
+*/
 private:
     QHBoxLayout *main_layout;
 //    QVector<QPushButton *> buttons;
@@ -41,6 +47,7 @@ private:
     QString hospitalName;
 
     QListWidget *listWidget;
+  //  QPushButton* goBack;
 
     int SCRUBS_ID;
     bool getDone;

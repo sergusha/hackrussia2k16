@@ -13,7 +13,7 @@ RightWidget::RightWidget(QWidget *parent)
     //NETWORKSTUFF
     Manager=new QNetworkAccessManager(this);
 
-    RefreshTimerOverflow();
+   // RefreshTimerOverflow();
 
 
     //BUTTONS:
@@ -37,9 +37,13 @@ RightWidget::RightWidget(QWidget *parent)
     BusyNumberLabel=new QLabel("Занято");
     BusyNumberLabel->setMaximumHeight(30);
     TotalNumberValue=new QLabel(QString::number(TotalNumber));
+    TotalNumberValue->setFixedWidth(70);
     FreeNumberValue=new QLabel(QString::number(FreeNumber));
+    FreeNumberValue->setFixedWidth(70);
     BookedNumberValue=new QLabel(QString::number(BookedNumber));
+    BookedNumberValue->setFixedWidth(70);
     BusyNumberValue=new QLabel(QString::number(BusyNumber));
+    BusyNumberValue->setFixedWidth(70);
     QFont font =QFont();
     font.setPointSize(16);
     BedsLabel->setFont(font);
@@ -171,6 +175,8 @@ void RightWidget::replyFinished()
 {
     QNetworkReply *reply1 = qobject_cast<QNetworkReply *>(sender());
     QString content= reply1->readAll();
+    if (content == "")
+        return;
     StringParser(content);
 }
 

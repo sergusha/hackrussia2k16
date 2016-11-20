@@ -2,17 +2,21 @@
 
 Widget::Widget(QWidget *parent)
     : QWidget(parent)
+
 {
+   // goBack=new QPushButton();
+    //connect(goBack,SIGNAL(clicked(bool)),this,SLOT(goBackSlot()));
+
     getDone = false;
-    hospitalName = "Больница 1";
+    hospitalName = "Елизаровская больница";
     this->setMinimumSize(640, 480);
     main_layout = new QHBoxLayout(this);
     manager = new QNetworkAccessManager(this);
     departments = QVector<Department>();
-    getDepartmentInfo();
+    //getDepartmentInfo();
 
     //while(!getDone);
-    QFont font =QFont();
+    QFont font = QFont();
     font.setPointSize(16);
 
     //getdepartmentInfo fills departments
@@ -21,8 +25,7 @@ Widget::Widget(QWidget *parent)
     listWidget->setFont(font);
     QVBoxLayout *left_layout = new QVBoxLayout(this);
     main_layout->addLayout(left_layout);
-
-
+    //main_layout->addWidget(goBack);
 
 
     QLabel *dep_label = new QLabel("Отделения", this);
@@ -35,8 +38,10 @@ Widget::Widget(QWidget *parent)
     main_layout->addWidget(rightWidget);
 
     //Будем контент менять
-    QWidget::connect(listWidget, SIGNAL(itemClicked(QListWidgetItem*)), this, SLOT(show_content(QListWidgetItem*)));
+    listWidget->setItemSelected(listWidget->item(0), true);
+    QWidget::connect(listWidget, SIGNAL(itemPressed(QListWidgetItem*)), this, SLOT(show_content(QListWidgetItem*)));
 }
+
 void Widget::getDepartmentInfo()
 {
     QString Query="http://informcosm.temp.swtest.ru/get_scrubs_id.php";
@@ -48,18 +53,27 @@ void Widget::getDepartmentInfo()
     connect(reply, SIGNAL(finished()), this, SLOT(replyOnGetInfo()));
 
 }
+void Widget::setHospitalName(QString name)
+{
+    hospitalName = name;
+    getDepartmentInfo();
+}
+
 void Widget::replyOnGetInfo()
 {
     QNetworkReply *reply1 = qobject_cast<QNetworkReply *>(sender());
     QString content = reply1->readAll();
+    if (content == "")
+        return;
     parseScrubsInfo(content);
     getDepartmentNames();
 }
 void Widget::parseScrubsInfo(QString reply)
 {
     //Переделать - получать id больницы от родительского окна-меню
+    //Зачем? я получаю имя из окна-меню, а не айдишник.
     QStringList list = reply.split("&");
-    for(int i = 0; i < list.size(); i++)
+    for(int i = 0; i < list.size() - 1; i++)
     {
         QStringList sublist = list[i].split("|");
         if(sublist[1] == hospitalName)
@@ -85,7 +99,6 @@ void Widget::parseDepartmentInfo(QString reply)
         departments[i].bookedNumber = depInfo[3].toInt();
         departments[i].freeNumber = depInfo[4].toInt();
     }
-    getDone = true;
     for (int i = 0; i < departments.size(); i++)
     {
         listWidget->addItem(departments[i].name);
@@ -104,6 +117,7 @@ void Widget::getDepartmentNames()
     request = QNetworkRequest(QUrl(Query));
 
     reply = manager->get(request);
+
     connect(reply, SIGNAL(finished()), this, SLOT(replyOnDepartmentNames()));
 
 
@@ -112,6 +126,8 @@ void Widget::replyOnDepartmentNames()
 {
     QNetworkReply *reply1 = qobject_cast<QNetworkReply *>(sender());
     QString content= reply1->readAll();
+    if (content == "")
+        return;
     parseDepartmentInfo(content);
 }
 
@@ -131,11 +147,17 @@ void Widget::show_content(QListWidgetItem* t)
     }
     //Перенаправляем действие кнопок правого меню на выделенное отделение
     rightWidget->department_id = depId;
+    rightWidget->scrubs_id=SCRUBS_ID;
     //Обновляем информацию в правом меню
     rightWidget->RefreshTimerOverflow();
-    //Мы  молодцы, скрещиваем пальцы, чтобы собралось сразу
 
 }
+
+/*void Widget::goBackSlot(){
+    this->hide();
+    emit Hide();
+}*/
+
 
 Widget::~Widget()
 {
