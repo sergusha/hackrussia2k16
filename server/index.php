@@ -29,10 +29,6 @@ if ($_GET['department'])
 	$department = $_GET['department'];
 else 
 	$department = 1;
-if ($_GET['addition'])
-	$addition = $_GET['addition'];
-else
-	$addition = "";
 
 //Выбираем больницы со свободными койками в нужном отделении
 $query = "SELECT * FROM department_detail_table WHERE department_id=$department";
@@ -52,9 +48,10 @@ while($row = mysql_fetch_object($sql1))
 		$sql2 = mysql_query($q);
 		$row2 = mysql_fetch_object($sql2);
 		$destRes = $row2->coordX . ',' . $row2->coordY . '|' . $destRes;
-		$arr = $row2->id . '|' . $arr;
+		$arr = $row2->scrubs_id . '|' . $arr;
 	}
 }
+//echo $arr . "<br>";
 $timeNow = time()+4000;
 $urlGoogleApi = "https://maps.googleapis.com/maps/api/distancematrix/json?departure_time=$timeNow&origins=$fromX,$fromY&destinations=$destRes&key=AIzaSyBkYGFvoXHI-PyeGN2synyx_o1_0ZzB5aY";	
 $html = file_get_contents_curl($urlGoogleApi);

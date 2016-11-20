@@ -2,21 +2,16 @@
 <GeocodeResponse>
  <status>OK</status>
  <result>
-  <type>subpremise</type>
-  <formatted_address>prospekt Obukhovskoy Оborony, 291к2, 3, Sankt-Peterburg, Russia, 192012</formatted_address>
+  <type>street_address</type>
+  <formatted_address>Nevsky pr., 88, Sankt-Peterburg, Russia, 191025</formatted_address>
   <address_component>
-   <long_name>3</long_name>
-   <short_name>3</short_name>
-   <type>subpremise</type>
-  </address_component>
-  <address_component>
-   <long_name>291 корпус 2</long_name>
-   <short_name>291к2</short_name>
+   <long_name>88</long_name>
+   <short_name>88</short_name>
    <type>street_number</type>
   </address_component>
   <address_component>
-   <long_name>prospekt Obukhovskoy Оborony</long_name>
-   <short_name>prospekt Obukhovskoy Оborony</short_name>
+   <long_name>Nevsky prospect</long_name>
+   <short_name>Nevsky pr.</short_name>
    <type>route</type>
   </address_component>
   <address_component>
@@ -44,27 +39,27 @@
    <type>political</type>
   </address_component>
   <address_component>
-   <long_name>192012</long_name>
-   <short_name>192012</short_name>
+   <long_name>191025</long_name>
+   <short_name>191025</short_name>
    <type>postal_code</type>
   </address_component>
   <geometry>
    <location>
-    <lat>59.8469270</lat>
-    <lng>30.4814810</lng>
+    <lat>59.9324250</lat>
+    <lng>30.3519384</lng>
    </location>
    <location_type>ROOFTOP</location_type>
    <viewport>
     <southwest>
-     <lat>59.8455780</lat>
-     <lng>30.4801320</lng>
+     <lat>59.9310760</lat>
+     <lng>30.3505894</lng>
     </southwest>
     <northeast>
-     <lat>59.8482760</lat>
-     <lng>30.4828300</lng>
+     <lat>59.9337740</lat>
+     <lng>30.3532874</lng>
     </northeast>
    </viewport>
   </geometry>
-  <place_id>Em_Qv9GA0L7RgdC_LiDQntCx0YPRhdC-0LLRgdC60L7QuSDQntCx0L7RgNC-0L3RiywgMjkx0LoyLCAzLCDQodCw0L3QutGCLdCf0LXRgtC10YDQsdGD0YDQsywg0KDQvtGB0YHQuNGPLCAxOTIwMTI</place_id>
+  <place_id>ChIJe2prMKQxlkYRao-F1VLi6h0</place_id>
  </result>
 </GeocodeResponse>

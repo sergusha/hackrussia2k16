@@ -18,8 +18,7 @@ else
 		$num_of_place = $row->num_of_place;
 		$buffer = $row->buffer;
 		$free = $num_of_place - $buffer - $employed;
-		$res = $row->id . '|' . $row2->name . '|' . $employed . '|' . $buffer . '|' . $free . '&' . $res;
-		
+		$res = $row->department_id . '|' . $row2->name . '|' . $employed . '|' . $buffer . '|' . $free . '&' . $res;
 	}
 	
 	echo $res;

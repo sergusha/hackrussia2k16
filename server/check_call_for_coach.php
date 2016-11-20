@@ -1,7 +1,7 @@
 <?php
 include('db.inc');
 if (!$_GET['id'] || !$_GET['x'] || !$_GET['y'])
-	echo -1;
+	echo "{ \"text\" : \"-1\" }";
 else
 {
 	//Обновляем координаты
@@ -23,6 +23,6 @@ else
 			$res++;
 		}
 	}
-	echo $res;
+	echo "{ \"text\" : \"" . $res . "\" }";
 }
 ?>
